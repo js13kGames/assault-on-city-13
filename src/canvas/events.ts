@@ -47,11 +47,11 @@ export const setupEventHandlers = (
 ): EventHandlers => {
   // Track mouse down state
   let isMouseDown = false
-  
+
   canvas.addEventListener('mousedown', () => {
     isMouseDown = true
   })
-  
+
   canvas.addEventListener('mouseup', () => {
     isMouseDown = false
   })
@@ -269,17 +269,20 @@ export const setupEventHandlers = (
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement
   ) => {
-    e.preventDefault()
-    const touch = e.touches[0]
-    const rect = canvas.getBoundingClientRect()
-    const x = touch.clientX - rect.left
-    const y = touch.clientY - rect.top
+    if (all.cs === 'TP') {
+      e.preventDefault()
+      const touch = e.touches[0]
+      const rect = canvas.getBoundingClientRect()
+      const x = touch.clientX - rect.left
+      const y = touch.clientY - rect.top
 
-    // Force update slider position (equivalent to mouse down drag)
-    const clickHandler = ScreenTroops(ctx, canvas)
-    const result = clickHandler(x, y, false) // Not treat as hover
-    if (result === 5 || result === 6) {
-      draw()
+      // Only handle touch move for ScreenTroops screen
+      // Force update slider position (equivalent to mouse down drag)
+      const clickHandler = ScreenTroops(ctx, canvas)
+      const result = clickHandler(x, y, false) // Not treat as hover
+      if (result === 5 || result === 6) {
+        draw()
+      }
     }
   }
 
